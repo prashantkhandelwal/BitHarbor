@@ -1,7 +1,14 @@
-import type { Torrent } from '$lib/types';
+import type { TorrentFile } from '$lib/types';
 import parseTorrent from 'parse-torrent';
 
-export type ParsedTorrent = Omit<Torrent, 'id' | 'createdAt'>;
+export type ParsedTorrent = {
+  name: string;
+  infoHash: string;
+  files: TorrentFile[];
+  totalSize: number;
+  trackers: string[];
+  pieceLength: number;
+};
 
 export interface TorrentParser {
   parse(contents: Uint8Array): Promise<ParsedTorrent>;

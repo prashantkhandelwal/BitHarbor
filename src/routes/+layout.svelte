@@ -1,7 +1,7 @@
 <script lang="ts">
   import '../app.css';
 
-  let { children } = $props();
+  let { children, data } = $props();
 </script>
 
 <svelte:head>
@@ -13,8 +13,17 @@
   <nav class="mx-auto flex max-w-5xl items-center justify-between px-5 py-4" aria-label="Main navigation">
     <a class="text-xl font-bold text-harbor-700" href="/">BitHarbor</a>
     <div class="flex gap-5 text-sm font-semibold">
-      <a class="hover:text-harbor-600" href="/search">Search</a>
-      <a class="hover:text-harbor-600" href="/upload">Upload</a>
+      {#if data.user}
+        <a class="hover:text-harbor-600" href="/search">Search</a>
+        <a class="hover:text-harbor-600" href="/upload">Upload</a>
+        <a class="hover:text-harbor-600" href="/categories">Categories</a>
+        <a class="hover:text-harbor-600" href="/invites">Invites</a>
+        <form method="POST" action="/logout">
+          <button class="font-semibold hover:text-harbor-600" type="submit">Log out</button>
+        </form>
+      {:else}
+        <a class="hover:text-harbor-600" href="/login">Log in</a>
+      {/if}
     </div>
   </nav>
 </header>

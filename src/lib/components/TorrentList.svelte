@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Torrent } from '$lib/types';
+  import { formatFileSize } from '$lib/format';
 
   let { torrents }: { torrents: Torrent[] } = $props();
 
@@ -22,7 +23,7 @@
           {torrent.name}
         </a>
         <p class="mt-2 mb-0 text-sm text-gray-600">
-          {formatter.format(torrent.totalSize / 1_048_576)} · {torrent.files.length} file{torrent.files.length === 1 ? '' : 's'}
+        {formatFileSize(torrent.totalSize)} · {torrent.files.length} file{torrent.files.length === 1 ? '' : 's'}
         </p>
       </li>
     {/each}

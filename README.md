@@ -15,6 +15,18 @@ npm run dev
 
 Open <http://localhost:5173>.
 
+## Accounts and invites
+
+Uploading torrents, managing categories, and creating invites require an account. Registration is invite-only, and each invite code can be used once.
+
+Set a private bootstrap code in `.env` before creating the first account:
+
+```dotenv
+INITIAL_INVITE_CODE=replace-with-a-long-random-code
+```
+
+Open `/register` and use that code for the first account. After logging in, use the Invites page to generate single-use codes for other users. Remove `INITIAL_INVITE_CODE` from the environment after the first account has been created; the redeemed code cannot be reused even if the setting remains present.
+
 ## Validation
 
 ```powershell

@@ -1,11 +1,13 @@
 import { eq } from 'drizzle-orm';
 import type { Torrent } from '$lib/types';
+import type { ParsedTorrent } from '$lib/server/torrent';
+import { listCategories } from './categories';
 import { database } from './index';
 import { torrents as postgresTorrents } from './schema.postgres';
 import { torrents as sqliteTorrents } from './schema.sqlite';
 
 type PostgresTorrent = typeof postgresTorrents.$inferSelect;
-type NewTorrent = Omit<Torrent, 'id' | 'createdAt'>;
+type NewTorrent = ParsedTorrent & Pick<Torrent, 'categoryId' | 'tags' | 'description'>;
 
 export type CreateTorrentResult = {
   torrent: Torrent;
@@ -77,14 +79,20 @@ export async function listTorrents(query = ''): Promise<Torrent[]> {
       ? await database.db.select().from(sqliteTorrents)
       : (await database.db.select().from(postgresTorrents)).map(fromPostgres);
 
-  return normalizedQuery
+  const categories = new Map((await listCategories()).map((category) => [category.id, category.name]));
+  const results = normalizedQuery
     ? torrents.filter((torrent) => torrent.name.toLowerCase().includes(normalizedQuery))
     : torrents;
+
+  return results.map((torrent) => ({ ...torrent, categoryName: categories.get(torrent.categoryId) }));
 }
 
 export async function getTorrent(id: string): Promise<Torrent | undefined> {
   if (database.type === 'sqlite') {
-    return database.db.select().from(sqliteTorrents).where(eq(sqliteTorrents.id, id)).get();
+    const torrent = database.db.select().from(sqliteTorrents).where(eq(sqliteTorrents.id, id)).get();
+    if (!torrent) return undefined;
+    const categories = new Map((await listCategories()).map((category) => [category.id, category.name]));
+    return { ...torrent, categoryName: categories.get(torrent.categoryId) };
   }
 
   const torrent = await database.db
@@ -93,5 +101,8 @@ export async function getTorrent(id: string): Promise<Torrent | undefined> {
     .where(eq(postgresTorrents.id, id))
     .limit(1);
 
-  return torrent[0] ? fromPostgres(torrent[0]) : undefined;
+  if (!torrent[0]) return undefined;
+  const categories = new Map((await listCategories()).map((category) => [category.id, category.name]));
+  const result = fromPostgres(torrent[0]);
+  return { ...result, categoryName: categories.get(result.categoryId) };
 }

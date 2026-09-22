@@ -3,6 +3,16 @@ export type TorrentFile = {
   size: number;
 };
 
+export type Category = {
+  id: string;
+  name: string;
+};
+
+export type User = {
+  id: string;
+  username: string;
+};
+
 export type Torrent = {
   id: string;
   name: string;
@@ -11,5 +21,9 @@ export type Torrent = {
   totalSize: number;
   trackers: string[];
   pieceLength: number;
+  categoryId: string;
+  categoryName?: string;
+  tags: string[];
+  description: string;
   createdAt: string;
 };
