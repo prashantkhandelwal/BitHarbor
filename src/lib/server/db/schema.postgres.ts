@@ -1,5 +1,5 @@
 import type { TorrentFile } from '$lib/types';
-import { bigint, integer, jsonb, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
+import { bigint, boolean, integer, jsonb, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
 
 export const torrents = pgTable('torrents', {
   id: text('id').primaryKey(),
@@ -24,6 +24,8 @@ export const users = pgTable('users', {
   id: text('id').primaryKey(),
   username: text('username').notNull().unique(),
   passwordHash: text('password_hash').notNull(),
+  isAdmin: boolean('is_admin').notNull().default(false),
+  isPremium: boolean('is_premium').notNull().default(false),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull()
 });
 

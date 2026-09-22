@@ -24,6 +24,8 @@ export const users = sqliteTable('users', {
   id: text('id').primaryKey(),
   username: text('username').notNull().unique(),
   passwordHash: text('password_hash').notNull(),
+  isAdmin: integer('is_admin', { mode: 'boolean' }).notNull().default(false),
+  isPremium: integer('is_premium', { mode: 'boolean' }).notNull().default(false),
   createdAt: text('created_at').notNull()
 });
 

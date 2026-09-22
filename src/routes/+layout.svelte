@@ -14,10 +14,20 @@
     <a class="text-xl font-bold text-harbor-700" href="/">BitHarbor</a>
     <div class="flex gap-5 text-sm font-semibold">
       {#if data.user}
+      <div>
         <a class="hover:text-harbor-600" href="/search">Search</a>
-        <a class="hover:text-harbor-600" href="/upload">Upload</a>
-        <a class="hover:text-harbor-600" href="/categories">Categories</a>
-        <a class="hover:text-harbor-600" href="/invites">Invites</a>
+        </div>
+        <div>
+          <a class="hover:text-harbor-600" href="/upload">Upload</a>
+        </div>
+        <div class:hidden={!data.user.isAdmin}>
+          <a class="hover:text-harbor-600" href="/categories">Categories</a>
+        </div>
+        {#if data.user.isPremium}
+          <div>
+            <a class="hover:text-harbor-600" href="/invites">Invites</a>
+          </div>
+        {/if}
         <form method="POST" action="/logout">
           <button class="font-semibold hover:text-harbor-600" type="submit">Log out</button>
         </form>

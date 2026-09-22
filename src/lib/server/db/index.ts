@@ -20,6 +20,8 @@ function connect() {
         id text PRIMARY KEY,
         username text NOT NULL UNIQUE,
         password_hash text NOT NULL,
+        is_admin integer NOT NULL DEFAULT 0,
+        is_premium integer NOT NULL DEFAULT 0,
         created_at text NOT NULL
       );
       CREATE TABLE IF NOT EXISTS sessions (
@@ -54,6 +56,18 @@ function connect() {
     if (!columnNames.has('category_id')) client.exec("ALTER TABLE torrents ADD COLUMN category_id text NOT NULL DEFAULT ''");
     if (!columnNames.has('tags')) client.exec("ALTER TABLE torrents ADD COLUMN tags text NOT NULL DEFAULT '[]'");
     if (!columnNames.has('description')) client.exec("ALTER TABLE torrents ADD COLUMN description text NOT NULL DEFAULT ''");
+
+    const userColumns = new Set(
+      (client.prepare('PRAGMA table_info(users)').all() as { name: string }[]).map((column) => column.name)
+    );
+    if (!userColumns.has('is_admin')) {
+      client.exec('ALTER TABLE users ADD COLUMN is_admin integer NOT NULL DEFAULT 0');
+    }
+    if (userColumns.has('can_send_invites') && !userColumns.has('is_premium')) {
+      client.exec('ALTER TABLE users RENAME COLUMN can_send_invites TO is_premium');
+    } else if (!userColumns.has('is_premium')) {
+      client.exec('ALTER TABLE users ADD COLUMN is_premium integer NOT NULL DEFAULT 0');
+    }
 
     const categoryCount = client.prepare('SELECT COUNT(*) AS count FROM categories').get() as { count: number };
     if (categoryCount.count === 0) {

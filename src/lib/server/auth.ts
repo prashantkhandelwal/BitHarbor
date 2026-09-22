@@ -54,8 +54,13 @@ async function verifyPassword(password: string, storedHash: string): Promise<boo
   return expected.length === actual.length && timingSafeEqual(expected, actual);
 }
 
-function publicUser(user: { id: string; username: string }): User {
-  return { id: user.id, username: user.username };
+function publicUser(user: { id: string; username: string; isAdmin: boolean; isPremium: boolean }): User {
+  return {
+    id: user.id,
+    username: user.username,
+    isAdmin: user.isAdmin,
+    isPremium: user.isPremium
+  };
 }
 
 export async function ensureInitialInvite(): Promise<void> {
@@ -105,7 +110,7 @@ export async function registerUser(username: string, password: string, inviteCod
           .set({ usedBy: id, usedAt: createdAt })
           .where(eq(sqliteInvites.codeHash, codeHash))
           .run();
-        return { id, username: normalizedUsername };
+        return { id, username: normalizedUsername, isAdmin: false, isPremium: false };
       });
     } catch (error) {
       if (error instanceof InvalidInviteError) throw error;

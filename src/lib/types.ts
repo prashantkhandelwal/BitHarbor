@@ -11,6 +11,8 @@ export type Category = {
 export type User = {
   id: string;
   username: string;
+  isAdmin: boolean;
+  isPremium: boolean;
 };
 
 export type Torrent = {
