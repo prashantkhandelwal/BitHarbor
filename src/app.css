@@ -1,0 +1,21 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Trebuchet MS', sans-serif;
+  --color-harbor-50: #f2f8f7;
+  --color-harbor-100: #dceceb;
+  --color-harbor-600: #14746f;
+  --color-harbor-700: #0f5f5b;
+  --color-ink: #172121;
+}
+
+body {
+  margin: 0;
+  background: var(--color-harbor-50);
+  color: var(--color-ink);
+}
+
+button,
+input {
+  font: inherit;
+}

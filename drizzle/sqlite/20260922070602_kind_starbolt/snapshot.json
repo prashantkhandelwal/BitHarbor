@@ -1,0 +1,113 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "id": "a05ad27c-8f8e-4e63-9555-2d0f74213e90",
+  "prevIds": [
+    "00000000-0000-0000-0000-000000000000"
+  ],
+  "ddl": [
+    {
+      "name": "torrents",
+      "entityType": "tables"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "id",
+      "entityType": "columns",
+      "table": "torrents"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "name",
+      "entityType": "columns",
+      "table": "torrents"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "info_hash",
+      "entityType": "columns",
+      "table": "torrents"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "files",
+      "entityType": "columns",
+      "table": "torrents"
+    },
+    {
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "total_size",
+      "entityType": "columns",
+      "table": "torrents"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "trackers",
+      "entityType": "columns",
+      "table": "torrents"
+    },
+    {
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "piece_length",
+      "entityType": "columns",
+      "table": "torrents"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "created_at",
+      "entityType": "columns",
+      "table": "torrents"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "torrents_pk",
+      "table": "torrents",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "info_hash"
+      ],
+      "nameExplicit": false,
+      "name": "torrents_info_hash_unique",
+      "entityType": "uniques",
+      "table": "torrents"
+    }
+  ],
+  "renames": []
+}
