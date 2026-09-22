@@ -1,8 +1,3 @@
----
-title: BitHarbor
-description: SvelteKit scaffold for browsing and hosting torrent metadata
----
-
 ## Overview
 
 BitHarbor is a SvelteKit application for browsing, searching, and hosting
